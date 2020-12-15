@@ -108,7 +108,7 @@ docs.deselect = (moveCursor = true) => {
       docs.moveLeft();
     }
     return true;
-  }
+  } //e
   if (Math.abs(cursorBox.x - selectionBox.x) < 1) {
     console.log("cursor is to the left of selelction");
     docs.moveLeft();
