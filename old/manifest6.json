@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "Google Docs Vim 2",
+  "version": "0.0.1",
+  "description": "vim in google docs",
+  "author": "euler",
+  "content_scripts": [
+    {
+      "matches": ["*://*.google.com/*document/d/*/edit*"],
+      "js": [
+        "utils.js",
+        "docs-plus/third_party/jquery.min.js",
+        "docs-plus/docs.js",
+        "docs_api.js",
+        "modes/normal_visual.js",
+        "modes/insert.js",
+        "modes/normal.js",
+        "modes/visual.js",
+        "docs-vim.js"
+      ]
+    }
+  ]
+}
