@@ -2,6 +2,7 @@ const vim = {
   mode: "insert", // Keep track of current mode
   num: 1, // Keep track of number keys pressed by the user
   currentSequence: [], // Keep track of key sequences
+  clipboard: "",
   keys: {
     move: "hjkl", // QWERTY: hjkl
     escapeSequence: "jk", // QWERTY: jk or jl
@@ -12,26 +13,24 @@ const vim = {
     baseMap[vim.keys.move[2]] = "ArrowUp";
     baseMap[vim.keys.move[3]] = "ArrowRight";
   },
-  display: (e) => null,
   normal: {},
   visual: {},
   insert: {},
   universal: {},
+  switchToNormalMode: () => {
+    vim.currentSequence = [];
+    vim.mode = "normal";
+    vim.num = 1;
+    docs.setCursorWidth("7px");
+  },
+  switchToVisualMode: () => {
+    vim.currentSequence = [];
+    vim.mode = "visual";
+    vim.num = 1;
+    docs.setCursorWidth("7px");
+  },
 };
-function switchToNormalMode() {
-  vim.currentSequence = [];
-  vim.mode = "normal";
-  vim.num = "1";
-  docs.setCursorWidth("7px");
-}
-vim.switchToNormalMode = switchToNormalMode;
-function switchToVisualMode() {
-  vim.currentSequence = "";
-  vim.mode = "visual";
-  vim.num = "1";
-  docs.setCursorWidth("7px");
-}
-vim.switchToVisualMode = switchToVisualMode;
+
 // vim.switchToNormalMode = switchToNormalMode;
 // vim.switchToInsertMode = switchToInsertMode;
 // vim.switchToVisualMode = switchToVisualMode;
@@ -62,7 +61,7 @@ async function execute(sequence, e) {
     for (const char of sequence) {
       let charFunc = vim[vim.mode][char] || vim.universal[char];
       // console.log("char is", char, "charFunc is ", charFunc);
-      res = await charFunc(val);
+      await charFunc(val);
     }
   }
   e.preventDefault();
@@ -80,9 +79,11 @@ const keydown_handler = async (e) => {
   try {
     // console.log(vim.currentSequence[vim.currentSequence.length - 1], e.key);
     if (e.key === vim.currentSequence[vim.currentSequence.length - 1]) {
+      //@ts-ignore
       e.key = "selectLine";
     }
     if (e.key === "i" && vim.currentSequence.length > 0) {
+      //@ts-ignore
       e.key = "selectInside";
     }
     const func = vim[vim.mode][e.key] || vim.universal[e.key];
@@ -93,7 +94,7 @@ const keydown_handler = async (e) => {
       e.preventDefault();
       e.stopPropagation();
       if (/\d/.test(e.key)) {
-        if (!(e.key == "0" && vim.num == "1")) {
+        if (!(e.key == "0" && vim.num == 1)) {
           vim.num = Number(vim.num.toString() + e.key);
           return false;
         }
@@ -118,8 +119,10 @@ const keydown_handler = async (e) => {
     }
   } catch (e) {
     console.log("error", e);
+    return false;
     // vim.display("invalid squenece");
   }
+  return true;
 };
 docs.keydown = async function (e) {
   await keydown_handler(e);
