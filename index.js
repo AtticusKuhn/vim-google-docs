@@ -87,7 +87,7 @@ const keydown_handler = async (e) => {
       e.key = "selectInside";
     }
     const func = vim[vim.mode][e.key] || vim.universal[e.key];
-    if (vim.mode === "insert" && e.key !== "Escape") {
+    if (vim.mode !== "normal" && vim.mode !== "visual" && e.key !== "Escape") {
       vim.display.innerText = formatMsg(vim);
       return true;
     } else {

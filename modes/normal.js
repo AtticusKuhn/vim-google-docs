@@ -80,3 +80,7 @@ vim.normal.selectInside = async (char) => {
     docs.moveRight(true);
   }
 };
+vim.normal[":"] = () => {
+  create_command_bar();
+  vim.mode = "command";
+};

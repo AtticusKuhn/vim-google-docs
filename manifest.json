@@ -14,6 +14,8 @@
         "docs_api/docs.js",
         "docs_api/docs_api.js",
         "index.js",
+        "commands/commands.js",
+        "commands/command_bar.js",
         "modes/universalMode.js",
         "modes/normal.js",
         "modes/insert.js"

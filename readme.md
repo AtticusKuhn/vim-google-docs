@@ -1,4 +1,4 @@
-#### Vim In Google Docs
+## Vim In Google Docs
 
 Have you ever wanted to have the capabilities of vim inside
 the popular drive that is google docs? This is a chrome
