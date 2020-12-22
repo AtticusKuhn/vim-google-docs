@@ -7,7 +7,11 @@ vim.normal.c = (text) => {
 };
 vim.normal.y = async (text) => {
   const selected = await docs.asyncCopySelection();
+  vim.clipboard = selected;
   await navigator.clipboard.writeText(selected);
+};
+vim.normal.p = () => {
+  docs.pasteText(vim.clipboard);
 };
 
 vim.normal.Escape = () => {
@@ -75,4 +79,8 @@ vim.normal.selectInside = async (char) => {
     }
     docs.moveRight(true);
   }
+};
+vim.normal[":"] = () => {
+  create_command_bar();
+  vim.mode = "command";
 };
