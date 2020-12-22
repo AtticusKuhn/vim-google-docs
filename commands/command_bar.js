@@ -32,6 +32,7 @@ function show_command_bar() {
     return;
   }
   command_bar.show();
+  command_bar.focus();
 }
 function hide_command_bar() {
   console.log("hide command bar");
